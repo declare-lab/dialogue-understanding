@@ -1,5 +1,5 @@
-from tqdm import tqdm
 import numpy as np
+from tqdm import tqdm
 import argparse, time, pickle
 import torch
 import torch.nn as nn
@@ -292,7 +292,7 @@ if __name__ == '__main__':
         
         print ('Scores: Weighted, Weighted w/o Neutral, Micro, Micro w/o Neutral, Macro, Macro w/o Neutral')
         print('F1@Best Valid Loss: {}'.format(scores_val_loss))
-        print('F1@Best Valid F1: {}'.format([scores_val_f1]))
+        print('F1@Best Valid F1: {}'.format(scores_val_f1))
         
     elif (dataset=='dailydialog' and classify=='act') or (dataset=='persuasion'):  
         score1 = test_fscores[0][np.argmin(valid_losses)]
@@ -308,7 +308,7 @@ if __name__ == '__main__':
         
         print ('Scores: Weighted, Micro, Macro')
         print('F1@Best Valid Loss: {}'.format(scores_val_loss))
-        print('F1@Best Valid F1: {}'.format([scores_val_f1]))
+        print('F1@Best Valid F1: {}'.format(scores_val_f1))
         
     else:
         score1 = test_fscores[0][np.argmin(valid_losses)]
@@ -317,12 +317,6 @@ if __name__ == '__main__':
         print('F1@Best Valid Loss: {}; F1@Best Valid F1: {}'.format(score1, score2))
         
     scores = [str(item) for item in scores]
-        
-    print(classification_report(best_label, best_pred, sample_weight=best_mask, digits=4))
-    print(confusion_matrix(best_label, best_pred, sample_weight=best_mask))
-    
-    if dataset == 'dailydialog':
-        print(classification_report(best_label,best_pred,sample_weight=best_mask,labels=[0,2,3,4,5,6],digits=4))
     
     rf.write('\t'.join(scores) + '\t' + str(args) + '\n')
     lf.write('\n' + str(classification_report(best_label, best_pred, sample_weight=best_mask, digits=4)) + '\n')
