@@ -43,16 +43,19 @@ We provide implementations for end-to-end without context classifier, bcLSTM and
 ### Execution
 
 To train and evaluate the without context classifier model and the bcLSTM/DialogueRNN model with full context and residual connections:
+
 `python train.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --cls-model [logreg|lstm|dialogrnn] --residual`
 
 The `--cls-model logreg` corresponds to the without context classifier.
 
 
 To train and and evaluate bcLSTM model in `w/o inter` setting i.e. only with context from the same speaker:
+
 `python train_intra_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
 
 To train and and evaluate bcLSTM model in `w/o intra` setting i.e. only with context from the other speaker:
+
 `python train_inter_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
 
