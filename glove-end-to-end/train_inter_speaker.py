@@ -163,10 +163,10 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=30, metavar='E', help='number of epochs')
     parser.add_argument('--class-weight', action='store_true', default=False, help='use class weight')
     parser.add_argument('--attention', action='store_true', default=False, help='use attention on top of lstm model')
-    parser.add_argument('--cls-model', default='lstm', help='lstm or logreg')
-    parser.add_argument('--mode', default='840B', help='which glove model')
-    parser.add_argument('--dataset', help='which dataset')
-    parser.add_argument('--classify', help='what to classify')
+    parser.add_argument('--cls-model', default='lstm', help='lstm|dialogrnn|logreg')
+    parser.add_argument('--mode', default='840B', help='which glove model 840B|6B')
+    parser.add_argument('--dataset', help='which dataset iemocap|multiwoz|dailydialog|persuasion')
+    parser.add_argument('--classify', help='what to classify emotion|act|intent|er|ee')
     parser.add_argument('--cattn', default='general', help='context attention for dialogrnn simple|general|general2')
     parser.add_argument('--residual', action='store_true', default=False, help='use residual connection')
     args = parser.parse_args()
@@ -360,12 +360,6 @@ if __name__ == '__main__':
         print('F1@Best Valid Loss: {}; F1@Best Valid F1: {}'.format(score1, score2))
         
     scores = [str(item) for item in scores]
-    
-    print(classification_report(best_label, best_pred, sample_weight=best_mask, digits=4))
-    print(confusion_matrix(best_label, best_pred, sample_weight=best_mask))
-    
-    if dataset == 'dailydialog':
-        print(classification_report(best_label,best_pred,sample_weight=best_mask,labels=[0,2,3,4,5,6],digits=4))
     
     rf.write('\t'.join(scores) + '\t' + str(args) + '\n')
     lf.write('\n' + str(classification_report(best_label, best_pred, sample_weight=best_mask, digits=4)) + '\n')
