@@ -58,4 +58,8 @@ To train and and evaluate bcLSTM model in `w/o intra` setting i.e. only with con
 
 `python train_inter_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
+### Note
+
+Please run the scripts multiple times and average the test scores of those runs.
+
 
