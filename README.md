@@ -1,4 +1,4 @@
-# Utterance-level Dialogue Understanding (ULDU)
+# Utterance-level Dialogue Understanding
 
 This repository contains pytorch implementation for the models from the paper [Utterance-level Dialogue Understanding: An Empirical Study]()
 
