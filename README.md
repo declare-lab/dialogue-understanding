@@ -66,4 +66,7 @@ To train and and evaluate bcLSTM model in `w/o intra` setting i.e. only with con
 
 Please run the scripts multiple times and average the test scores of those runs.
 
+## Citation
+
+`Utterance-level Dialogue Understanding: An Empirical Study. Deepanway Ghosal, Navonil Majumder, Rada Mihalcea4, Soujanya Poria. Arxiv Preprint (2020).`
 
