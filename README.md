@@ -64,7 +64,7 @@ To train and and evaluate bcLSTM model in `w/o intra` setting i.e. only with con
 
 ### Note
 
-Please run the scripts multiple times and average the test scores of those runs.
+If you are running Globe-based end-to-end models, please run the scripts multiple times and average the test scores of those runs.
 
 ## Citation
 
