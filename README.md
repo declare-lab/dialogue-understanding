@@ -41,6 +41,8 @@ We provide implementations for end-to-end without context classifier, bcLSTM and
 <!-- ![Alt text](dialoguernn.jpg?raw=true "DialogueRNN framework.") -->
 <!-- ![Alt text](residual.png?raw=true "Models with residual connections.") -->
 
+![Alt text](dc-block.png?raw=true "bcLSTM and DialogueRNN frameworks with residual connections.")
+
 
 ### Execution
 
