@@ -15,24 +15,24 @@ def configure_dataloaders(dataset, classify, batch_size):
     "Prepare dataloaders"
     
     if dataset == 'persuasion':
-        utt_file1 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_train_' + classify + '_utterances.tsv'
-        utt_file2 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_valid_' + classify + '_utterances.tsv'
-        utt_file3 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_test_' + classify + '_utterances.tsv'
-        mask_file1 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
-        mask_file2 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
-        mask_file3 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
+        utt_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_' + classify + '_utterances.tsv'
+        utt_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_' + classify + '_utterances.tsv'
+        utt_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_' + classify + '_utterances.tsv'
+        mask_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
+        mask_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
+        mask_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
     else:
-        utt_file1 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_train_utterances.tsv'
-        utt_file2 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_valid_utterances.tsv'
-        utt_file3 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_test_utterances.tsv'
-        mask_file1 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
-        mask_file2 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
-        mask_file3 = 'datasets/inter_speaker/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
+        utt_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_utterances.tsv'
+        utt_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_utterances.tsv'
+        utt_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_utterances.tsv'
+        mask_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
+        mask_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
+        mask_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
         
     
     train_loader = DialogLoader(
         utt_file1,  
-        'datasets_inter_speaker/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
+        'datasets/utterance_level/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
         mask_file1,
         mask_file1, # dummy speaker mask
         batch_size,
@@ -41,18 +41,18 @@ def configure_dataloaders(dataset, classify, batch_size):
     
     valid_loader = DialogLoader(
         utt_file2,  
-        'datasets_inter_speaker/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
-        mask_file2, # dummy speaker mask
+        'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
         mask_file2, 
+        mask_file2, # dummy speaker mask
         batch_size,
         shuffle=False
     )
     
     test_loader = DialogLoader(
         utt_file3,  
-        'datasets_inter_speaker/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
-        mask_file3, # dummy speaker mask
+        'datasets/utterance_level/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
         mask_file3, 
+        mask_file3, # dummy speaker mask
         batch_size,
         shuffle=False
     )
@@ -160,21 +160,23 @@ if __name__ == '__main__':
     parser.add_argument('--dropout', default=0.1, type=float, help="Dropout probability.")
     parser.add_argument('--rec-dropout', default=0.1, type=float, help="DialogRNN Dropout probability.")
     parser.add_argument('--batch-size', type=int, default=32, metavar='BS', help='batch size')
-    parser.add_argument('--epochs', type=int, default=30, metavar='E', help='number of epochs')
+    parser.add_argument('--epochs', type=int, default=40, metavar='E', help='number of epochs')
     parser.add_argument('--class-weight', action='store_true', default=False, help='use class weight')
     parser.add_argument('--attention', action='store_true', default=False, help='use attention on top of lstm model')
-    parser.add_argument('--cls-model', default='lstm', help='lstm|dialogrnn|logreg')
-    parser.add_argument('--mode', default='840B', help='which glove model 840B|6B')
-    parser.add_argument('--dataset', help='which dataset iemocap|multiwoz|dailydialog|persuasion')
-    parser.add_argument('--classify', help='what to classify emotion|act|intent|er|ee')
+    parser.add_argument('--cls-model', default='lstm', help='lstm or logreg')
+    parser.add_argument('--mode', default='840B', help='which glove model')
+    parser.add_argument('--dataset', help='which dataset')
+    parser.add_argument('--classify', help='what to classify')
     parser.add_argument('--cattn', default='general', help='context attention for dialogrnn simple|general|general2')
-    parser.add_argument('--residual', action='store_true', default=False, help='use residual connection')
+    parser.add_argument('--tensorboard', action='store_true', default=False, help='Enables tensorboard log')
     args = parser.parse_args()
 
     print(args)
 
     global dataset
     global classify
+    global tensorboard
+    tensorboard = args.tensorboard
     dataset = args.dataset
     D_h = 100
     D_e = 100
@@ -199,14 +201,7 @@ if __name__ == '__main__':
         print ('Classifying emotion in iemocap.')
         classify = 'emotion'
         n_classes  = 6
-        loss_weights = torch.FloatTensor([
-                                        1/0.086747,
-                                        1/0.144406,
-                                        1/0.227883,
-                                        1/0.160585,
-                                        1/0.127711,
-                                        1/0.252668,
-                                        ])
+        loss_weights = torch.FloatTensor([1.0, 0.60072, 0.38066, 0.54019, 0.67924, 0.34332])
         
     elif dataset == 'multiwoz':
         print ('Classifying intent in multiwoz.')
@@ -246,7 +241,7 @@ if __name__ == '__main__':
         print ('Creating tokenizer and embedding matrix.')
         all_utterances = []
         for loader in [train_loader, valid_loader, test_loader]:
-            for conversations, label, loss_mask, speakers in loader:
+            for conversations, label, loss_mask, speakers, dummy_index in loader:
                 all_utterances += [sent.lower() for conv in conversations for sent in conv]
 
         tokenizer = SpacyEncoder(all_utterances)
@@ -278,8 +273,9 @@ if __name__ == '__main__':
 
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     
-    lf = open('logs/' + dataset + '_glove_inter_speaker_' + classification_model + '_' + classify + '.txt', 'a')
-    rf = open('results/' + dataset + '_glove_inter_speaker_' + classification_model + '_' + classify + '.txt', 'a')
+    lf = open('logs/' + dataset + '_glove_utt_level_' + classification_model + '_' + classify + '.txt', 'a')
+    rf = open('results/' + dataset + '_glove_utt_level_' + classification_model + '_' + classify + '.txt', 'a')
+    
 
     valid_losses, valid_fscores = [], []
     test_fscores = []
@@ -310,6 +306,7 @@ if __name__ == '__main__':
         print (x)
         lf.write(x + '\n')
         
+        
     valid_fscores = np.array(valid_fscores).transpose()
     test_fscores = np.array(test_fscores).transpose()
     
@@ -335,7 +332,7 @@ if __name__ == '__main__':
         
         print ('Scores: Weighted, Weighted w/o Neutral, Micro, Micro w/o Neutral, Macro, Macro w/o Neutral')
         print('F1@Best Valid Loss: {}'.format(scores_val_loss))
-        print('F1@Best Valid F1: {}'.format(scores_val_f1))
+        print('F1@Best Valid F1: {}'.format([scores_val_f1]))
         
     elif (dataset =='dailydialog' and classify =='act') or (dataset=='persuasion'):  
         score1 = test_fscores[0][np.argmin(valid_losses)]
@@ -351,7 +348,7 @@ if __name__ == '__main__':
         
         print ('Scores: Weighted, Micro, Macro')
         print('F1@Best Valid Loss: {}'.format(scores_val_loss))
-        print('F1@Best Valid F1: {}'.format(scores_val_f1))
+        print('F1@Best Valid F1: {}'.format([scores_val_f1]))
         
     else:
         score1 = test_fscores[0][np.argmin(valid_losses)]

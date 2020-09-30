@@ -62,7 +62,7 @@ def train_or_eval_model(model, loss_function, dataloader, epoch, optimizer=None,
     else:
         model.eval()
     
-    for conversations, label, loss_mask, speaker_mask in tqdm(dataloader, leave=False):
+    for conversations, label, loss_mask, speaker_mask, dummy_index in tqdm(dataloader, leave=False):
         if train:
             optimizer.zero_grad()
             

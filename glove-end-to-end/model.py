@@ -276,7 +276,6 @@ class CNNFeatureExtractor(nn.Module):
         pretrained_word_vectors
     ):
         self.embedding.weight = nn.Parameter(torch.from_numpy(pretrained_word_vectors).float())
-        # if is_static:
         self.embedding.weight.requires_grad = False
 
     def forward(
@@ -706,4 +705,187 @@ class End2EndModel(nn.Module):
             log_prob_er = F.log_softmax(self.smax_fc_er(hidden), 2)
             log_prob_ee = F.log_softmax(self.smax_fc_ee(hidden), 2)
             return log_prob_er, log_prob_ee
+
+
+class End2EndShuffledMultitaskModel(nn.Module):
+
+    def __init__(
+        self, 
+        dataset,
+        vocab_size, 
+        embedding_dim,
+        tokenizer,
+        cls_model,
+        cnn_output_size=100, 
+        cnn_filters=50, 
+        cnn_kernel_sizes=(2,3,4), 
+        cnn_dropout=0.25,
+        D_e=100, 
+        D_h=100,
+        n_classes=7, 
+        dropout=0.25,
+        attention=False,
+        context_attention='general',
+        rec_dropout=0.1,
+        residual=False,
+        max_num_utt=100
+    ):  
+        super(End2EndShuffledMultitaskModel, self).__init__()
+
+        self.dataset = dataset
+        self.tokenizer = tokenizer
+        self.cnn_feat_extractor = CNNFeatureExtractor(vocab_size, embedding_dim, cnn_output_size, 
+                                                      cnn_filters, cnn_kernel_sizes, cnn_dropout)
+        
+        self.dropout   = nn.Dropout(dropout)
+        
+        self.cls_model = cls_model
+        
+        self.feature_dim = 2*D_e
+        self.rec_dropout = nn.Dropout(rec_dropout)
+        self.residual = residual
+        
+        if self.cls_model == 'lstm':
+            self.lstm = nn.LSTM(input_size=cnn_output_size, hidden_size=D_e, num_layers=2, 
+                                bidirectional=True, dropout=0.1)
+            
+            self.attention = attention
+            if self.attention:
+                self.matchatt = MatchingAttention(2*D_e, 2*D_e, att_type='general2')
+        
+            self.linear = nn.Linear(2*D_e, D_h)
+            
+        elif self.cls_model == 'dialogrnn':
+            self.dialog_rnn_f = DialogueRNN(cnn_output_size, 100, 100, D_e, context_attention)
+            self.dialog_rnn_r = DialogueRNN(cnn_output_size, 100, 100, D_e, context_attention)
+            self.attention = attention
+            if self.attention:
+                self.matchatt = MatchingAttention(2*D_e, 2*D_e, att_type='general2')
+        
+            self.linear = nn.Linear(2*D_e, D_h)
+            
+        self.seq_label_smax_fc = nn.Linear(D_h, max_num_utt)
+            
+        if self.dataset != 'persuasion':
+            self.smax_fc = nn.Linear(D_h, n_classes)
+        else:
+            self.smax_fc_er = nn.Linear(D_h, 11)
+            self.smax_fc_ee = nn.Linear(D_h, 13)
+    
+    def init_pretrained_embeddings(
+        self, 
+        pretrained_word_vectors
+    ):
+        self.cnn_feat_extractor.init_pretrained_embeddings_from_numpy(pretrained_word_vectors)
+
+    def pad(
+        self,
+        tensor, 
+        length
+    ):
+        if length > tensor.size(0):
+            return torch.cat([tensor, torch.zeros(length - tensor.size(0), *tensor.size()[1:]).long()])
+        else:
+            return tensor
+        
+    def _reverse_seq(
+        self, 
+        X, 
+        mask
+    ):
+        """
+        X -> seq_len, batch, dim
+        mask -> batch, seq_len
+        """
+        X_ = X.transpose(0,1)
+        mask_sum = torch.sum(mask, 1).int()
+
+        xfs = []
+        for x, c in zip(X_, mask_sum):
+            xf = torch.flip(x[:c], [0])
+            xfs.append(xf)
+
+        return pad_sequence(xfs)
+    
+
+    def forward(
+        self, 
+        conversations, 
+        lengths,
+        umask,
+        qmask=None
+    ):       
+        lengths = torch.Tensor(lengths).long()
+        start = torch.cumsum(torch.cat((lengths.data.new(1).zero_(), lengths[:-1])), 0)
+        utterances = [sent.lower() for conv in conversations for sent in conv]
+        sequence, sequence_lengths = self.tokenizer.batch_encode(utterances)
+        sequence = torch.stack([self.pad(sequence.narrow(0, s, l), max(lengths))
+                                for s, l in zip(start.data.tolist(), lengths.data.tolist())], 0).transpose(0, 1)
+        
+        sequence = sequence.cuda()
+        umask = umask.cuda()
+        
+        mask = umask.unsqueeze(-1).type(FloatTensor) # (batch, num_utt) -> (batch, num_utt, 1)
+        mask = mask.transpose(0, 1) # (batch, num_utt, 1) -> (num_utt, batch, 1)
+        mask = mask.repeat(1, 1, self.feature_dim) #  (num_utt, batch, 1) -> (num_utt, batch, output_size)
+        
+        cnn_features = self.cnn_feat_extractor(sequence, umask)
+                
+        if self.cls_model == 'lstm':
+            features, _ = self.lstm(cnn_features)
+            featutes = features * mask
+            if self.attention:
+                att_features = []
+                for t in features:
+                    att_ft, _ = self.matchatt(features, t, mask=umask)
+                    att_features.append(att_ft.unsqueeze(0))
+                att_features = torch.cat(att_features, dim=0)
+                hidden = F.relu(self.linear(att_features))
+            else:
+                hidden = F.relu(self.linear(features))
+                hidden = self.rec_dropout(hidden)
+                
+            if self.residual:
+                hidden = hidden + cnn_features
+                
+        if self.cls_model == 'dialogrnn':
+            hidden_f, alpha_f = self.dialog_rnn_f(cnn_features, qmask)
+            rev_features = self._reverse_seq(cnn_features, umask)
+            rev_qmask = self._reverse_seq(qmask, umask)
+            hidden_b, alpha_b = self.dialog_rnn_r(rev_features, rev_qmask)
+            hidden_b = self._reverse_seq(hidden_b, umask)
+            features = torch.cat([hidden_f, hidden_b],dim=-1)
+            features = features * mask
+            
+            if self.attention:
+                att_features = []
+                for t in features:
+                    att_ft, _ = self.matchatt(features, t, mask=umask)
+                    att_features.append(att_ft.unsqueeze(0))
+                att_features = torch.cat(att_features, dim=0)
+                hidden = F.relu(self.linear(att_features))
+            else:
+                hidden = F.relu(self.linear(features))
+                hidden = self.rec_dropout(hidden)
+                
+            if self.residual:
+                hidden = hidden + cnn_features
+                
+        elif self.cls_model == 'logreg':
+            hidden = F.relu(self.linear(features))
+            hidden = self.rec_dropout(hidden)
+        
+        # hidden = self.dropout(hidden)
+        
+        seq_label_log_prob = F.log_softmax(self.seq_label_smax_fc(hidden), 2)
+        
+        if self.dataset != 'persuasion':
+            log_prob = F.log_softmax(self.smax_fc(hidden), 2)
+            return log_prob, seq_label_log_prob
+        else:
+            log_prob_er = F.log_softmax(self.smax_fc_er(hidden), 2)
+            log_prob_ee = F.log_softmax(self.smax_fc_ee(hidden), 2)
+            return [log_prob_er, log_prob_ee], seq_label_log_prob
+            
+
         
