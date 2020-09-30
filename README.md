@@ -8,9 +8,8 @@ This repository contains pytorch implementations of the models from the paper [U
 
 Given the transcript of a conversation along with speaker information
 of each constituent utterance, the utterance-level dialogue understanding (utterance-level dialogue understanding) task aims to identify the label of each utterance from a set of  pre-defined labels that can be either a set of emotions, dialogue acts, intents etc. The figures above and below illustrate such
-conversations between two people, where each utterance is labeled by the
-underlying emotion and intent. Formally, given the input sequence of N number of
-utterances [(u\_1\, p_1), (u_2,p_2),\dots, (u_N,p_N)], where each utterance u_i=[u_{i,1},u_{i,2},\dots,u_{i,T}] consists of T words u_{i,j} and spoken by
+conversations between two people, where each utterance is labeled by the underlying emotion and intent. Formally, given the input sequence of N number of
+utterances [(u<sub>1</sub>, p_1), (u_2,p_2),\dots, (u_N,p_N)], where each utterance u_i=[u_{i,1},u_{i,2},\dots,u_{i,T}] consists of T words u_{i,j} and spoken by
 party p_i, the task is to predict the label e_i of each utterance u_i. In this process, the classifier can also make use of the conversational context. There are also cases where not all the utterances in a dialogue have corresponding labels. 
 
 Emotion           |  Intent
