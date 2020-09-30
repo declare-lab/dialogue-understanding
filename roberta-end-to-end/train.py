@@ -165,8 +165,9 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=30, metavar='E', help='number of epochs')
     parser.add_argument('--class-weight', action='store_true', default=False, help='use class weight')
     parser.add_argument('--cls-model', default='lstm', help='lstm|dialogrnn|logreg')
-    parser.add_argument('--model', default='roberta', help='which model family bert|roberta')
-    parser.add_argument('--mode', default='0', help='which mode 0: bert or roberta base | 1: bert or roberta large')
+    parser.add_argument('--model', default='roberta', help='which model family bert|roberta|sbert; sbert is sentence transformers')
+    parser.add_argument('--mode', default='0', help='which mode 0: bert or roberta base | 1: bert or roberta large; \
+                                                     0, 1: bert base, large sentence transformer and 2, 3: roberta base, large sentence transformer')
     parser.add_argument('--dataset', help='which dataset iemocap|multiwoz|dailydialog|persuasion')
     parser.add_argument('--classify', help='what to classify emotion|act|intent|er|ee')
     parser.add_argument('--cattn', default='general', help='context attention for dialogrnn simple|general|general2')
