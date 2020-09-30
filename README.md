@@ -1,12 +1,12 @@
 # Utterance-level Dialogue Understanding
 
-This repository contains pytorch implementation for the models from the paper [Utterance-level Dialogue Understanding: An Empirical Study](https://arxiv.org/pdf/2009.13902.pdf)
+This repository contains pytorch implementations of the models from the paper [Utterance-level Dialogue Understanding: An Empirical Study](https://arxiv.org/pdf/2009.13902.pdf)
 
 ![Alt text](uldu.png?raw=true "Utterance-level Dialogue Understanding")
 
 ## Data Format
 
-The models are all trained in an end-to-end fashion. The utterances, labels, loss masks, and speaker specific information are thus read directly from tab separated text files. All data files follow the common format:
+The models are all trained in an end-to-end fashion. The utterances, labels, loss masks, and speaker-specific information are thus read directly from tab separated text files. All data files follow the common format:
 
 Utterances: Each line contains tab separated dialogue id and the utterances of the dialogue.
 ```
@@ -34,7 +34,7 @@ train_2    0    1    0
 
 ## Models
 
-We provide implementations for end-to-end without context classifier, bcLSTM and DialogueRNN models. For bcLSTM and DialogueRNN we also provide training argument which lets you specify whether to use residual connections or not. Navigate to `roberta-end-to-end` or `glove-end-to-end` directories to use RoBERTa or GloVe based feature extractors for the models.
+We provide implementations for end-to-end without context classifier, bcLSTM and DialogueRNN models. For bcLSTM and DialogueRNN, we also provide training argument which lets you specify whether to use residual connections or not. Navigate to `roberta-end-to-end` or `glove-end-to-end` directories to use RoBERTa or GloVe based feature extractors for the models.
 
 
 <!-- ![Alt text](bclstm.png?raw=true "bcLSTM framework.") -->
@@ -58,16 +58,16 @@ The `--cls-model logreg` corresponds to the without context classifier.
 `python train_utt_level.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --cls-model [logreg|lstm|dialogrnn] --residual`
 
 #### Speaker Level Models
-`w/o inter` : Trained on dialogue level. To train and evaluate bcLSTM model in this setting i.e. only with context from the same speaker:
+`w/o inter` : Trained at dialogue level. To train and evaluate bcLSTM model in this setting i.e. only with context from the same speaker:
 
 `python train_intra_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
-`w/o intra` : Trained on utterance level. To train and evaluate bcLSTM model in this setting i.e. only with context from the other speaker:
+`w/o intra` : Trained at utterance level. To train and evaluate bcLSTM model in this setting i.e. only with context from the other speaker:
 
 `python train_inter_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
 #### Shuffled Context and Shuffled Context with Order Prediction Models
-Trained on dialogue level. To train and evaluate bcLSTM model with various shuffling strategies in train, val, test:
+Trained at dialogue level. To train and evaluate bcLSTM model with various shuffling strategies in train, val, test:
 
 `python train_shuffled_context.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual --shuffle [0|1|2]`
 
