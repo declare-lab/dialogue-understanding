@@ -43,7 +43,7 @@ train_2    0    1    0
 
 ## Datasets
 
-The original datasets can be found in the `glove-end-to-end/dialogue_level_minibatch`, `glove-end-to-end\utterance_level_minibatch`, and `roberta-end-to-end\dialogue_level_minibatch`.
+The original datasets can be found in the `glove-end-to-end/dialogue_level_minibatch`, `glove-end-to-end/utterance_level_minibatch`, and `roberta-end-to-end/dialogue_level_minibatch`.
 The following datasets are included in this project:
 
 ```
@@ -54,6 +54,7 @@ The following datasets are included in this project:
  Persuasion for Good (Persuader's act classification)
  Persuasion for Good (Persuadee's act classification)
 ```
+
 ### Utterance-level minibatch vs Dialogue-level minibatch
 
 The original datasets are experimented using two distinct minibatch formation. Please refer to the paper for more information.
