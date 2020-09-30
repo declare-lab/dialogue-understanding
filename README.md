@@ -97,28 +97,28 @@ Navigate to `glove-end-to-end`. We have also released scripts with which you can
 ### Execution
 Once navigate to `roberta-end-to-end` or `glove-end-to-end` directories to use RoBERTa or GloVe based feature extractors for the models, run the following commands to execute different models explained in the paper. Note that some of the models present in the `glove-end-to-end` folder are not available in the `roberta-end-to-end` folder. However, it should not be difficult to adapt these models to use RoBERTa embeddings.
 
-#### Main Model (Dialogue Level)
+#### Main Model (Dialogue-Level Minibatch)
 To train and evaluate the without context classifier model and the bcLSTM/DialogueRNN model with full context and residual connections:
 
 `python train.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --cls-model [logreg|lstm|dialogrnn] --residual`
 
 The `--cls-model logreg` corresponds to the without context classifier.
 
-#### Main Model (Utterance Level)
+#### Main Model (Utterance-level Minibatch)
 
 `python train_utt_level.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --cls-model [logreg|lstm|dialogrnn] --residual`
 
 #### Speaker Level Models
-`w/o inter` : Trained at dialogue level. To train and evaluate bcLSTM model in this setting i.e. only with context from the same speaker:
+`w/o inter` : Trained at dialogue-level minibatch. To train and evaluate bcLSTM model in this setting i.e. only with context from the same speaker:
 
 `python train_intra_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
-`w/o intra` : Trained at utterance level. To train and evaluate bcLSTM model in this setting i.e. only with context from the other speaker:
+`w/o intra` : Trained at utterance-level minibatch. To train and evaluate bcLSTM model in this setting i.e. only with context from the other speaker:
 
 `python train_inter_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
 #### Shuffled Context and Shuffled Context with Order Prediction Models
-Trained at dialogue level. To train and evaluate bcLSTM model with various shuffling strategies in train, val, test:
+Trained at dialogue-level minibatch. To train and evaluate bcLSTM model with various shuffling strategies in train, val, test:
 
 `python train_shuffled_context.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual --shuffle [0|1|2]`
 
@@ -129,7 +129,7 @@ Trained at dialogue level. To train and evaluate bcLSTM model with various shuff
 `--shuffle 2` : Original context in train, val; shuffled context in test.
 
 #### Context Control Models
-Trained at utterance level. The script is `train_context_control.py`. You can specify training arguments to determine how to control the context.
+Trained at utterance-level minibatch. The script is `train_context_control.py`. You can specify training arguments to determine how to control the context.
 
 ### Note
 
