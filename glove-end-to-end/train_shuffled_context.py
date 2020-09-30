@@ -14,31 +14,31 @@ from sklearn.metrics import f1_score, confusion_matrix, accuracy_score, classifi
 def configure_dataloaders(dataset, classify, batch_size, shuffle_mode):
     "Prepare dataloaders"
     if dataset == 'persuasion':
-        train_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
-        valid_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
-        test_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
+        train_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
+        valid_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
+        test_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
     else:
-        train_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
-        valid_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
-        test_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
+        train_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
+        valid_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
+        test_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
        
     if shuffle_mode == 0:
         print ('Shuffled context in train, val, test')
-        train_loader = ShuffledDialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_train_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_train_' + classify + '.tsv', train_mask, 'datasets/' + dataset + '/' + dataset + '_train_speakers.tsv', batch_size, shuffle=True)
-        valid_loader = ShuffledDialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv', valid_mask, 'datasets/' + dataset + '/' + dataset + '_valid_speakers.tsv', batch_size, shuffle=False)
-        test_loader = ShuffledDialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_test_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_test_' + classify + '.tsv', test_mask, 'datasets/' + dataset + '/' + dataset + '_test_speakers.tsv', batch_size, shuffle=False)
+        train_loader = ShuffledDialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_train_' + classify + '.tsv', train_mask, 'datasets/' + dataset + '/' + dataset + '_train_speakers.tsv', batch_size, shuffle=True)
+        valid_loader = ShuffledDialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv', valid_mask, 'datasets/' + dataset + '/' + dataset + '_valid_speakers.tsv', batch_size, shuffle=False)
+        test_loader = ShuffledDialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_test_' + classify + '.tsv', test_mask, 'datasets/' + dataset + '/' + dataset + '_test_speakers.tsv', batch_size, shuffle=False)
         
     elif shuffle_mode == 1:
         print ('Shuffled context in train, val, original context in test')
-        train_loader = ShuffledDialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_train_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_train_' + classify + '.tsv', train_mask, 'datasets/' + dataset + '/' + dataset + '_train_speakers.tsv', batch_size, shuffle=True)
-        valid_loader = ShuffledDialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv', valid_mask, 'datasets/' + dataset + '/' + dataset + '_valid_speakers.tsv', batch_size, shuffle=False)
-        test_loader = DialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_test_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_test_' + classify + '.tsv', test_mask, 'datasets/' + dataset + '/' + dataset + '_test_speakers.tsv', batch_size, shuffle=False)
+        train_loader = ShuffledDialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_train_' + classify + '.tsv', train_mask, 'datasets/' + dataset + '/' + dataset + '_train_speakers.tsv', batch_size, shuffle=True)
+        valid_loader = ShuffledDialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv', valid_mask, 'datasets/' + dataset + '/' + dataset + '_valid_speakers.tsv', batch_size, shuffle=False)
+        test_loader = DialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_test_' + classify + '.tsv', test_mask, 'datasets/' + dataset + '/' + dataset + '_test_speakers.tsv', batch_size, shuffle=False)
         
     elif shuffle_mode == 2:
         print ('Original context in train, val, shuffled context in test')
-        train_loader = DialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_train_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_train_' + classify + '.tsv', train_mask, 'datasets/' + dataset + '/' + dataset + '_train_speakers.tsv', batch_size, shuffle=True)
-        valid_loader = DialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv', valid_mask, 'datasets/' + dataset + '/' + dataset + '_valid_speakers.tsv', batch_size, shuffle=False)
-        test_loader = ShuffledDialogLoader('datasets/dialogue_level/' + dataset + '/' + dataset + '_test_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_test_' + classify + '.tsv', test_mask, 'datasets/' + dataset + '/' + dataset + '_test_speakers.tsv', batch_size, shuffle=False)
+        train_loader = DialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_train_' + classify + '.tsv', train_mask, 'datasets/' + dataset + '/' + dataset + '_train_speakers.tsv', batch_size, shuffle=True)
+        valid_loader = DialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv', valid_mask, 'datasets/' + dataset + '/' + dataset + '_valid_speakers.tsv', batch_size, shuffle=False)
+        test_loader = ShuffledDialogLoader('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_utterances.tsv', 'datasets/' + dataset + '/' + dataset + '_test_' + classify + '.tsv', test_mask, 'datasets/' + dataset + '/' + dataset + '_test_speakers.tsv', batch_size, shuffle=False)
     
     return train_loader, valid_loader, test_loader
 

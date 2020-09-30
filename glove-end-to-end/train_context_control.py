@@ -15,24 +15,24 @@ def configure_dataloaders(dataset, classify, batch_size):
     "Prepare dataloaders"
     
     if dataset == 'persuasion':
-        utt_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_' + classify + '_utterances.tsv'
-        utt_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_' + classify + '_utterances.tsv'
-        utt_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_' + classify + '_utterances.tsv'
-        mask_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
-        mask_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
-        mask_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
+        utt_file1 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_train_' + classify + '_utterances.tsv'
+        utt_file2 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_valid_' + classify + '_utterances.tsv'
+        utt_file3 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_test_' + classify + '_utterances.tsv'
+        mask_file1 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
+        mask_file2 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
+        mask_file3 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
     else:
-        utt_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_utterances.tsv'
-        utt_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_utterances.tsv'
-        utt_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_utterances.tsv'
-        mask_file1 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
-        mask_file2 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
-        mask_file3 = 'datasets/utterance_level/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
+        utt_file1 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_train_utterances.tsv'
+        utt_file2 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_valid_utterances.tsv'
+        utt_file3 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_test_utterances.tsv'
+        mask_file1 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
+        mask_file2 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
+        mask_file3 = 'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
         
     
     train_loader = DialogLoader(
         utt_file1,  
-        'datasets/utterance_level/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
+        'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
         mask_file1,
         mask_file1, # dummy speaker mask
         batch_size,
@@ -41,7 +41,7 @@ def configure_dataloaders(dataset, classify, batch_size):
     
     valid_loader = DialogLoader(
         utt_file2,  
-        'datasets/utterance_level/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
+        'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
         mask_file2, 
         mask_file2, # dummy speaker mask
         batch_size,
@@ -50,7 +50,7 @@ def configure_dataloaders(dataset, classify, batch_size):
     
     test_loader = DialogLoader(
         utt_file3,  
-        'datasets/utterance_level/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
+        'datasets/utterance_level_minibatch/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
         mask_file3, 
         mask_file3, # dummy speaker mask
         batch_size,

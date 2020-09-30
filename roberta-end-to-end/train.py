@@ -29,37 +29,37 @@ def configure_optimizers(model, weight_decay, learning_rate, adam_epsilon):
 def configure_dataloaders(dataset, classify, batch_size):
     "Prepare dataloaders"
     if dataset == 'persuasion':
-        train_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
-        valid_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
-        test_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
+        train_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_' + classify + '_loss_mask.tsv'
+        valid_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_' + classify + '_loss_mask.tsv'
+        test_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_' + classify + '_loss_mask.tsv'
     else:
-        train_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
-        valid_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
-        test_mask = 'datasets/dialogue_level/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
+        train_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_loss_mask.tsv'
+        valid_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_loss_mask.tsv'
+        test_mask = 'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_loss_mask.tsv'
         
     train_loader = DialogLoader(
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_train_utterances.tsv',  
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_utterances.tsv',  
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
         train_mask,
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_train_speakers.tsv',  
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_train_speakers.tsv',  
         batch_size,
         shuffle=True
     )
     
     valid_loader = DialogLoader(
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_utterances.tsv',  
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_utterances.tsv',  
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
         valid_mask,
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_valid_speakers.tsv', 
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_valid_speakers.tsv', 
         batch_size,
         shuffle=False
     )
     
     test_loader = DialogLoader(
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_test_utterances.tsv',  
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_utterances.tsv',  
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
         test_mask,
-        'datasets/dialogue_level/' + dataset + '/' + dataset + '_test_speakers.tsv', 
+        'datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + '_test_speakers.tsv', 
         batch_size,
         shuffle=False
     )
