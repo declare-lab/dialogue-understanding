@@ -68,6 +68,12 @@ We provide implementations for end-to-end without context classifier, bcLSTM and
 
 ### Execution
 
+#### RoBERTa Based Models
+Navigate to `roberta-end-to-end`. We also provide training arguments with which you can alternately use BERT or Sentence Transformers models as feature extractors.
+
+#### GloVe Based Models
+Navigate to `glove-end-to-end`. We have also released scripts with which you can run different analysis experiments that we report in the paper.
+
 #### Main Model (Dialogue Level)
 To train and evaluate the without context classifier model and the bcLSTM/DialogueRNN model with full context and residual connections:
 
@@ -100,7 +106,7 @@ Trained at dialogue level. To train and evaluate bcLSTM model with various shuff
 `--shuffle 2` : Original context in train, val; shuffled context in test.
 
 #### Context Control Models
-Trained on utterance level. The script is `train_context_control.py`. You can specify training arguments to determine how to control the context.
+Trained at utterance level. The script is `train_context_control.py`. You can specify training arguments to determine how to control the context.
 
 ### Note
 
