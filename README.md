@@ -41,6 +41,19 @@ train_1    0    1
 train_2    0    1    0
 ```
 
+## Datasets
+
+The following datasets are included in this project
+
+```
+`-- IEMOCAP (Emotion Recognition in Conversations)`
+`-- DailyDialog (Emotion Recognition in Conversations)`
+`-- DailyDialog (Act Classification)`
+`-- MultiWOZ (Intent Recognition)`
+`-- Persuasion for Good (Persuader's act classification)`
+`-- Persuasion for Good (Persuadee's act classification)`
+```
+
 ## Models
 
 We provide implementations for end-to-end without context classifier, bcLSTM and DialogueRNN models. For bcLSTM and DialogueRNN, we also provide training argument which lets you specify whether to use residual connections or not. Navigate to `roberta-end-to-end` or `glove-end-to-end` directories to use RoBERTa or GloVe based feature extractors for the models.
