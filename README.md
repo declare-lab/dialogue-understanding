@@ -46,21 +46,39 @@ We provide implementations for end-to-end without context classifier, bcLSTM and
 
 ### Execution
 
+#### Main Model (Dialogue Level)
 To train and evaluate the without context classifier model and the bcLSTM/DialogueRNN model with full context and residual connections:
 
 `python train.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --cls-model [logreg|lstm|dialogrnn] --residual`
 
 The `--cls-model logreg` corresponds to the without context classifier.
 
+#### Main Model (Utterance Level)
 
-To train and and evaluate bcLSTM model in `w/o inter` setting i.e. only with context from the same speaker:
+`python train_utt_level.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --cls-model [logreg|lstm|dialogrnn] --residual`
+
+#### Speaker Level Models
+`w/o inter` : Trained on dialogue level. To train and evaluate bcLSTM model in this setting i.e. only with context from the same speaker:
 
 `python train_intra_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
 
-
-To train and and evaluate bcLSTM model in `w/o intra` setting i.e. only with context from the other speaker:
+`w/o intra` : Trained on utterance level. To train and evaluate bcLSTM model in this setting i.e. only with context from the other speaker:
 
 `python train_inter_speaker.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual`
+
+#### Shuffled Context and Shuffled Context with Order Prediction Models
+Trained on dialogue level. To train and evaluate bcLSTM model with various shuffling strategies in train, val, test:
+
+`python train_shuffled_context.py --dataset [iemocap|dailydialog|multiwoz|persuasion] --classify [emotion|act|intent|er|ee] --residual --shuffle [0|1|2]`
+
+`--shuffle 0` : Shuffled context in train, val, test.
+
+`--shuffle 1` : Shuffled context in train, val; original context in test.
+
+`--shuffle 2` : Original context in train, val; shuffled context in test.
+
+#### Context Control Models
+Trained on utterance level. The script is `train_context_control.py`. You can specify training arguments to determine how to control the context.
 
 ### Note
 
