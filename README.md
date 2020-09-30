@@ -43,7 +43,7 @@ train_2    0    1    0
 
 ## Datasets
 
-The following datasets are included in this project
+The following datasets are included in this project:
 
 ```
  IEMOCAP (Emotion Recognition in Conversations)
