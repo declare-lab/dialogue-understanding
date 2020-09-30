@@ -14,9 +14,10 @@ utterances $[(u_1, p_1), (u_2,p_2),\dots, (u_N,p_N)]$, where each utterance $u_i
 party $p_i$, the task is to predict the label $e_i$ of
 each utterance $u_i$. In this process, the classifier can also make use of the conversational context. There are also cases where not all the utterances in a dialogue have corresponding labels. 
 
-Example 1            |  Example 2
+Emotion           |  Intent
 :-------------------------:|:-------------------------:
 ![](emo-ex1.png)  |  ![](intent-ex1.png)
+![](emo-shift.png)  |  ![](intent-ex2.png)
 
 ## Data Format
 
