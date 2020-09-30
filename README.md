@@ -43,6 +43,7 @@ train_2    0    1    0
 
 ## Datasets
 
+The original datasets can be found in the `glove-end-to-end/dialogue_level_minibatch`, `glove-end-to-end\utterance_level_minibatch`, and `roberta-end-to-end\dialogue_level_minibatch`.
 The following datasets are included in this project:
 
 ```
@@ -52,6 +53,18 @@ The following datasets are included in this project:
  MultiWOZ (Intent Recognition)
  Persuasion for Good (Persuader's act classification)
  Persuasion for Good (Persuadee's act classification)
+```
+
+### Context Perturbations
+
+Along with the original datasets above, we also provide different variations of these datasets with context perturbations such as style transfer, paraphrasing, label augmentation, etc. Readers can find context perturbed versions of the original datasets in the following folders and refer to the paper to find relevant information.
+
+```
+glove-end-to-end/inter_speaker
+glove-end-to-end/label_augmentation
+glove-end-to-end/paraphrase_attack
+glove-end-to-end/spelling_attack
+glove-end-to-end/style_transfer
 ```
 
 ## Models
@@ -116,4 +129,3 @@ If you are running GloVe-based end-to-end models, please run the scripts multipl
 ## Citation
 `Utterance-level Dialogue Understanding: An Empirical Study. Deepanway Ghosal, Navonil Majumder, Rada Mihalcea, Soujanya Poria. arXiv preprint
 arXiv:2009.13902 (2020).`
-
