@@ -56,7 +56,13 @@ The following datasets are included in this project:
 
 ## Models
 
-We provide implementations for end-to-end without context classifier, bcLSTM and DialogueRNN models. For bcLSTM and DialogueRNN, we also provide training argument which lets you specify whether to use residual connections or not. Navigate to `roberta-end-to-end` or `glove-end-to-end` directories to use RoBERTa or GloVe based feature extractors for the models.
+We provide implementations for end-to-end without context classifier, bcLSTM and DialogueRNN models. For bcLSTM and DialogueRNN, we also provide training argument which lets you specify whether to use residual connections or not.
+
+### RoBERTa Based Models
+Navigate to `roberta-end-to-end`. We also provide training arguments with which you can alternately use BERT or Sentence Transformers models as feature extractors.
+
+### GloVe Based Models
+Navigate to `glove-end-to-end`. We have also released scripts with which you can run different analysis experiments that we report in the paper.
 
 
 <!-- ![Alt text](images/bclstm.png?raw=true "bcLSTM framework.") -->
@@ -67,12 +73,7 @@ We provide implementations for end-to-end without context classifier, bcLSTM and
 
 
 ### Execution
-
-#### RoBERTa Based Models
-Navigate to `roberta-end-to-end`. We also provide training arguments with which you can alternately use BERT or Sentence Transformers models as feature extractors.
-
-#### GloVe Based Models
-Navigate to `glove-end-to-end`. We have also released scripts with which you can run different analysis experiments that we report in the paper.
+Once navigate to `roberta-end-to-end` or `glove-end-to-end` directories to use RoBERTa or GloVe based feature extractors for the models, run the following commands to execute different models explained in the paper. Note that some of the models present in the `glove-end-to-end` folder are not available in the `roberta-end-to-end` folder. However, it should not be difficult to adapt these models to use RoBERTa embeddings.
 
 #### Main Model (Dialogue Level)
 To train and evaluate the without context classifier model and the bcLSTM/DialogueRNN model with full context and residual connections:
