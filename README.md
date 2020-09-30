@@ -56,11 +56,11 @@ The following datasets are included in this project:
 ```
 ### Utterance-level minibatch vs Dialogue-level minibatch
 
-The original datasets are are experimented using two distinct minibatch formation. Please refer to the paper for more information.
+The original datasets are experimented using two distinct minibatch formation. Please refer to the paper for more information.
 
-`glove-end-to-end/utterance-level-minibatch` : This folder contains the dataset that can be used to prepare minibatches where **only one** utterance in the context is classified and rest of the utterances are only used as context.
+`glove-end-to-end/datasets/utterance-level-minibatch` : This folder contains the dataset that can be used to prepare minibatches where **only one** utterance in the context is classified and rest of the utterances are used as context.
 
-`glove-end-to-end/dialogue-level-minibatch` : This folder contains the dataset that can be used to prepare minibatches where **all** the utterances in the context having a valid label are classified.
+`glove-end-to-end/datasets/dialogue-level-minibatch` : This folder contains the dataset that can be used to prepare minibatches where **all** the utterances in the context having a valid label are classified.
 
 ![Alt text](images/batch-split.png?raw=true "Two different minibatch formation techniques")
 
