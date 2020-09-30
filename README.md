@@ -2,7 +2,7 @@
 
 This repository contains pytorch implementations of the models from the paper [Utterance-level Dialogue Understanding: An Empirical Study](https://arxiv.org/pdf/2009.13902.pdf)
 
-![Alt text](uldu.png?raw=true "Utterance-level Dialogue Understanding")
+![Alt text](images/uldu.png?raw=true "Utterance-level Dialogue Understanding")
 
 ## Task Definition
 
@@ -10,8 +10,8 @@ Given the transcript of a conversation along with speaker information of each co
 
 Emotion           |  Intent
 :-------------------------:|:-------------------------:
-![](emo-ex1.png)  |  ![](intent-ex1.png)
-![](emo-shift.png)  |  ![](intent-ex2.png)
+![](images/emo-ex1.png)  |  ![](images/intent-ex1.png)
+![](images/emo-shift.png)  |  ![](images/intent-ex2.png)
 
 ## Data Format
 
@@ -59,11 +59,11 @@ The following datasets are included in this project
 We provide implementations for end-to-end without context classifier, bcLSTM and DialogueRNN models. For bcLSTM and DialogueRNN, we also provide training argument which lets you specify whether to use residual connections or not. Navigate to `roberta-end-to-end` or `glove-end-to-end` directories to use RoBERTa or GloVe based feature extractors for the models.
 
 
-<!-- ![Alt text](bclstm.png?raw=true "bcLSTM framework.") -->
-<!-- ![Alt text](dialoguernn.jpg?raw=true "DialogueRNN framework.") -->
-<!-- ![Alt text](residual.png?raw=true "Models with residual connections.") -->
+<!-- ![Alt text](images/bclstm.png?raw=true "bcLSTM framework.") -->
+<!-- ![Alt text](images/dialoguernn.jpg?raw=true "DialogueRNN framework.") -->
+<!-- ![Alt text](images/residual.png?raw=true "Models with residual connections.") -->
 
-![Alt text](dc-block.png?raw=true "bcLSTM and DialogueRNN frameworks with residual connections.")
+![Alt text](images/dc-block.png?raw=true "bcLSTM and DialogueRNN frameworks with residual connections.")
 
 
 ### Execution
@@ -107,7 +107,6 @@ Trained on utterance level. The script is `train_context_control.py`. You can sp
 If you are running GloVe-based end-to-end models, please run the scripts multiple times and average the test scores of those runs.
 
 ## Citation
-
 `Utterance-level Dialogue Understanding: An Empirical Study. Deepanway Ghosal, Navonil Majumder, Rada Mihalcea, Soujanya Poria. arXiv preprint
 arXiv:2009.13902 (2020).`
 
