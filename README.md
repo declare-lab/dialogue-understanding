@@ -46,12 +46,12 @@ train_2    0    1    0
 The following datasets are included in this project
 
 ```
-`-- IEMOCAP (Emotion Recognition in Conversations)`
-`-- DailyDialog (Emotion Recognition in Conversations)`
-`-- DailyDialog (Act Classification)`
-`-- MultiWOZ (Intent Recognition)`
-`-- Persuasion for Good (Persuader's act classification)`
-`-- Persuasion for Good (Persuadee's act classification)`
+-- IEMOCAP (Emotion Recognition in Conversations)
+-- DailyDialog (Emotion Recognition in Conversations)
+-- DailyDialog (Act Classification)
+-- MultiWOZ (Intent Recognition)
+-- Persuasion for Good (Persuader's act classification)
+-- Persuasion for Good (Persuadee's act classification)
 ```
 
 ## Models
