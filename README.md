@@ -70,11 +70,11 @@ The original datasets are experimented using two distinct minibatch formation. P
 Along with the original datasets above, we also provide different variations of these datasets with context perturbations such as style transfer, paraphrasing, label augmentation, etc. Readers can find context perturbed versions of the original datasets in the following folders and refer to the paper to find relevant information.
 
 ```
-glove-end-to-end/inter_speaker
-glove-end-to-end/label_augmentation
-glove-end-to-end/paraphrase_attack
-glove-end-to-end/spelling_attack
-glove-end-to-end/style_transfer
+glove-end-to-end/datasets/inter_speaker
+glove-end-to-end/datasets/label_augmentation
+glove-end-to-end/datasets/paraphrase_attack
+glove-end-to-end/datasets/spelling_attack
+glove-end-to-end/datasets/style_transfer
 ```
 
 ## Models
