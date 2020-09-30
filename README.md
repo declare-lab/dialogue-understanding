@@ -1,6 +1,6 @@
 # Utterance-level Dialogue Understanding
 
-This repository contains pytorch implementation for the models from the paper [Utterance-level Dialogue Understanding: An Empirical Study](./dialogue-understanding.pdf)
+This repository contains pytorch implementation for the models from the paper [Utterance-level Dialogue Understanding: An Empirical Study](https://arxiv.org/pdf/2009.13902.pdf)
 
 ![Alt text](uldu.png?raw=true "Utterance-level Dialogue Understanding")
 
@@ -68,5 +68,6 @@ If you are running GloVe-based end-to-end models, please run the scripts multipl
 
 ## Citation
 
-`Utterance-level Dialogue Understanding: An Empirical Study. Deepanway Ghosal, Navonil Majumder, Rada Mihalcea, Soujanya Poria. Arxiv Preprint (2020).`
+`Utterance-level Dialogue Understanding: An Empirical Study. Deepanway Ghosal, Navonil Majumder, Rada Mihalcea, Soujanya Poria. arXiv preprint
+arXiv:2009.13902 (2020).`
 
