@@ -188,6 +188,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', default='iemocap', help='which dataset')
     parser.add_argument('--classify', help='what to classify')
     parser.add_argument('--cattn', default='general', help='context attention for dialogrnn simple|general|general2')
+    parser.add_argument('--residual', action='store_true', default=False, help='use residual connection')
     parser.add_argument('--run' , help='which run')
 
     parser.add_argument('--cc-active', action='store_true', default=False, help='cc active')
@@ -240,6 +241,7 @@ if __name__ == '__main__':
     n_epochs = args.epochs
     classification_model = args.cls_model
     context_attention = args.cattn
+    residual = args.residual
 
     if dataset == 'iemocap':
         print ('Classifying emotion in iemocap.')
@@ -304,7 +306,7 @@ if __name__ == '__main__':
 
     model = End2EndModel(dataset, vocab_size, embedding_dim, tokenizer, classification_model,
                          cnn_output_size, cnn_filters, cnn_kernel_sizes, cnn_dropout,
-                         D_e, D_h, n_classes, dropout, attention, context_attention, rec_dropout)
+                         D_e, D_h, n_classes, dropout, attention, context_attention, rec_dropout, residual)
 
     if args.inference:
         if dataset == 'iemocap':

@@ -168,15 +168,13 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', help='which dataset')
     parser.add_argument('--classify', help='what to classify')
     parser.add_argument('--cattn', default='general', help='context attention for dialogrnn simple|general|general2')
-    parser.add_argument('--tensorboard', action='store_true', default=False, help='Enables tensorboard log')
+    parser.add_argument('--residual', action='store_true', default=False, help='use residual connection')
     args = parser.parse_args()
 
     print(args)
 
     global dataset
     global classify
-    global tensorboard
-    tensorboard = args.tensorboard
     dataset = args.dataset
     D_h = 100
     D_e = 100
@@ -196,6 +194,7 @@ if __name__ == '__main__':
     n_epochs = args.epochs
     classification_model = args.cls_model
     context_attention = args.cattn
+    residual = args.residual
     
     if dataset == 'iemocap':
         print ('Classifying emotion in iemocap.')
@@ -260,7 +259,7 @@ if __name__ == '__main__':
     
     model = End2EndModel(dataset, vocab_size, embedding_dim, tokenizer, classification_model,
                          cnn_output_size, cnn_filters, cnn_kernel_sizes, cnn_dropout,
-                         D_e, D_h, n_classes, dropout, attention, context_attention, rec_dropout)
+                         D_e, D_h, n_classes, dropout, attention, context_attention, rec_dropout, residual)
     
     model.init_pretrained_embeddings(embedding_matrix)
     model.cuda()
