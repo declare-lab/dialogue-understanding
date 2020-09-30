@@ -43,7 +43,7 @@ train_2    0    1    0
 
 ## Datasets
 
-The original datasets can be found in the `glove-end-to-end/dialogue_level_minibatch`, `glove-end-to-end/utterance_level_minibatch`, and `roberta-end-to-end/dialogue_level_minibatch`.
+The original datasets can be found in the `glove-end-to-end/datasets/dialogue_level_minibatch`, `glove-end-to-end/datasets/utterance_level_minibatch`, and `roberta-end-to-end/datasets/dialogue_level_minibatch`.
 The following datasets are included in this project:
 
 ```
