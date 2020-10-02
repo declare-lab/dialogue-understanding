@@ -132,6 +132,11 @@ Trained at dialogue-level minibatch. To train and evaluate bcLSTM model with var
 #### Context Control Models
 Trained at utterance-level minibatch. The script is `train_context_control.py`. You can specify training arguments to determine how to control the context.
 
+## Baseline Results
+
+![](images/results1.png)
+![](images/results2.png)
+
 ### Note
 
 If you are running GloVe-based end-to-end models, please run the scripts multiple times and average the test scores of those runs.
