@@ -279,9 +279,9 @@ if __name__ == '__main__':
     train_loader, valid_loader, test_loader = configure_dataloaders(dataset, classify, batch_size)
 
     ## Tokenizer and Embedding Matrix
-    if os.path.isfile('datasets/' + dataset + '/' + dataset + mode + '_embedding.matrix'):
-        tokenizer = pickle.load(open('datasets/' + dataset + '/' + dataset  + mode + '.tokenizer', 'rb'))
-        embedding_matrix = pickle.load(open('datasets/' + dataset + '/' + dataset + mode + '_embedding.matrix', 'rb'))
+    if os.path.isfile('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + mode + '_embedding.matrix'):
+        tokenizer = pickle.load(open('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset  + mode + '.tokenizer', 'rb'))
+        embedding_matrix = pickle.load(open('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + mode + '_embedding.matrix', 'rb'))
         print ('Tokenizer and embedding matrix exists. Loaded from pickle files.')
     else:
         print ('Creating tokenizer and embedding matrix.')
@@ -298,8 +298,8 @@ if __name__ == '__main__':
         elif mode == '840B':
             embedding_matrix = pretrained_matrix('glove/glove.840B.300d.txt', id_to_token)
 
-        pickle.dump(tokenizer, open('datasets/' + dataset + '/' + dataset + mode + '.tokenizer', 'wb'))
-        pickle.dump(embedding_matrix, open('datasets/' + dataset + '/' + dataset + mode + '_embedding.matrix', 'wb'))
+        pickle.dump(tokenizer, open('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + mode + '.tokenizer', 'wb'))
+        pickle.dump(embedding_matrix, open('datasets/dialogue_level_minibatch/' + dataset + '/' + dataset + mode + '_embedding.matrix', 'wb'))
         print ('Done.')
 
     vocab_size, embedding_dim = embedding_matrix.shape
