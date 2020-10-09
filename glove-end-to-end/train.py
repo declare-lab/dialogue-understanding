@@ -233,7 +233,7 @@ if __name__ == '__main__':
         print ('Creating tokenizer and embedding matrix.')
         all_utterances = []
         for loader in [train_loader, valid_loader, test_loader]:
-            for conversations, label, loss_mask, speakers in loader:
+            for conversations, label, loss_mask, speakers, dummy_indices in loader:
                 all_utterances += [sent.lower() for conv in conversations for sent in conv]
 
         tokenizer = SpacyEncoder(all_utterances)
