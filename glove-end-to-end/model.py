@@ -293,7 +293,7 @@ class CNNFeatureExtractor(nn.Module):
         convoluted = [F.relu(conv(emb)) for conv in self.convs] 
         pooled = [F.max_pool1d(c, c.size(2)).squeeze() for c in convoluted] 
         concated = torch.cat(pooled, 1)
-        features = F.relu(self.fc(self.dropout(concated))) # (num_utt * batch, embedding_dim//2) -> (num_utt * batch, output_size)
+        features = F.relu(self.fc(self.dropout(concated))) # (num_utt * batch, len(kernel_sizes) * filters) -> (num_utt * batch, output_size)
         features = features.view(num_utt, batch, -1) # (num_utt * batch, output_size) -> (num_utt, batch, output_size)
         mask = umask.unsqueeze(-1).type(FloatTensor) # (batch, num_utt) -> (batch, num_utt, 1)
         mask = mask.transpose(0, 1) # (batch, num_utt, 1) -> (num_utt, batch, 1)
