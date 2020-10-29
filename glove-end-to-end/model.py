@@ -652,7 +652,7 @@ class End2EndModel(nn.Module):
         
         if self.cls_model == 'lstm':
             features, _ = self.lstm(features)
-            featutes = features * mask
+            features = features * mask
             if self.attention:
                 att_features = []
                 for t in features:
@@ -833,7 +833,7 @@ class End2EndShuffledMultitaskModel(nn.Module):
                 
         if self.cls_model == 'lstm':
             features, _ = self.lstm(cnn_features)
-            featutes = features * mask
+            features = features * mask
             if self.attention:
                 att_features = []
                 for t in features:
