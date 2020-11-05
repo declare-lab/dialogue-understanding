@@ -208,17 +208,17 @@ def get_scores(dataset, classify, valid_losses, valid_fscores, test_fscores):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--lr', type=float, default=1e-4, metavar='LR', help='learning rate')
+    parser.add_argument('--lr', type=float, default=1e-3, metavar='LR', help='learning rate')
     parser.add_argument('--weight_decay', default=0.0, type=float, help="Weight decay if we apply some.")
     parser.add_argument('--adam_epsilon', default=1e-8, type=float, help="Epsilon for Adam optimizer.")
     parser.add_argument('--dropout', default=0.1, type=float, help="Dropout probability.")
     parser.add_argument('--rec-dropout', default=0.1, type=float, help="DialogRNN Dropout probability.")
-    parser.add_argument('--batch-size', type=int, default=4, metavar='BS', help='batch size')
-    parser.add_argument('--epochs', type=int, default=10, metavar='E', help='number of epochs')
+    parser.add_argument('--batch-size', type=int, default=32, metavar='BS', help='batch size')
+    parser.add_argument('--epochs', type=int, default=100, metavar='E', help='number of epochs')
     parser.add_argument('--class-weight', action='store_true', default=False, help='use class weight')
     parser.add_argument('--attention', action='store_true', default=False, help='use attention on top of lstm model')
     parser.add_argument('--cls-model', default='lstm', help='lstm or logreg')
-    parser.add_argument('--mode', default='6B', help='which glove model')
+    parser.add_argument('--mode', default='840B', help='which glove model')
     parser.add_argument('--dataset', help='which dataset')
     parser.add_argument('--classify', help='what to classify')
     parser.add_argument('--cattn', default='general', help='context attention for dialogrnn simple|general|general2')
@@ -266,10 +266,10 @@ if __name__ == '__main__':
     elif dataset == 'persuasion':
         classify = args.classify
         if classify == 'er':
-            print ('Classifying persuador in meld.')
+            print ('Classifying persuador in Persuasion for good.')
             n_classes  = 11
         elif classify == 'ee':
-            print ('Classifying persuadee in meld.')
+            print ('Classifying persuadee in Persuasion for good.')
             n_classes  = 13
         else:
             raise ValueError('--classify must be er or ee for persuasion')
