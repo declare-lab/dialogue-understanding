@@ -32,7 +32,7 @@ def configure_dataloaders(dataset, classify, batch_size):
     
     train_loader = DialogLoader(
         utt_file1,  
-        'datasets_inter_speaker/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
+        'datasets/inter_speaker/' + dataset + '/' + dataset + '_train_' + classify + '.tsv',
         mask_file1,
         mask_file1, # dummy speaker mask
         batch_size,
@@ -41,7 +41,7 @@ def configure_dataloaders(dataset, classify, batch_size):
     
     valid_loader = DialogLoader(
         utt_file2,  
-        'datasets_inter_speaker/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
+        'datasets/inter_speaker/' + dataset + '/' + dataset + '_valid_' + classify + '.tsv',
         mask_file2, # dummy speaker mask
         mask_file2, 
         batch_size,
@@ -50,7 +50,7 @@ def configure_dataloaders(dataset, classify, batch_size):
     
     test_loader = DialogLoader(
         utt_file3,  
-        'datasets_inter_speaker/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
+        'datasets/inter_speaker/' + dataset + '/' + dataset + '_test_' + classify + '.tsv',
         mask_file3, # dummy speaker mask
         mask_file3, 
         batch_size,
