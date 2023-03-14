@@ -1,1 +1,0 @@
-Keep glove.6B.300d.txt and/or glove.840B.300d.txt files in this directory.
